@@ -1,16 +1,6 @@
-<mat-card>
+<mat-card style="background-color: rgb(192, 190, 190);">
   <mat-card-content>
-    <form [formGroup]="paymentForm" >
-      <!-- Other form fields using Angular Material (e.g., name, billing address) -->
-      <mat-form-field appearance="fill">
-        <mat-label>Name on Card</mat-label>
-        <input matInput formControlName="cardHolderName" required>
-        <mat-error *ngIf="paymentForm.get('cardHolderName')?.dirty && paymentForm.get('cardHolderName')?.hasError('required')">Name on card is required</mat-error>
-        <mat-error *ngIf="paymentForm.get('cardHolderName')?.dirty && paymentForm.get('cardHolderName')?.hasError('minlength')">Enter at least 2 characters</mat-error>
-        <mat-error *ngIf="paymentForm.get('cardHolderName')?.dirty && paymentForm.get('cardHolderName')?.hasError('maxlength')">Name is too long</mat-error>
-        <mat-error *ngIf="paymentForm.get('cardHolderName')?.dirty && paymentForm.get('cardHolderName')?.hasError('pattern')">Invalid characters in name</mat-error>
-      </mat-form-field>
-
+    <form >
       <!-- Stripe Elements placeholder: card number / expiry / cvc rendered securely by Stripe.js -->
     <div class="stripe-field full-width">
       <label class="mat-label">Card Details</label>
@@ -20,20 +10,11 @@
     </div>
       <!-- Secure Expiration Element -->
       <!-- expiry and cvc are handled by Stripe Elements securely, so we don't collect them here -->
-    
-    <!-- Standard Material Input for Postal Code -->
-    <mat-form-field appearance="outline" >
-      <mat-label>Postal Code</mat-label>
-      <input matInput formControlName="postalCode" required>
-      <mat-error *ngIf="paymentForm.get('postalCode')?.dirty && paymentForm.get('postalCode')?.hasError('required')">Postal code is required</mat-error>
-      <mat-error *ngIf="paymentForm.get('postalCode')?.dirty && paymentForm.get('postalCode')?.hasError('invalidPostal')">Invalid postal code</mat-error>
-    </mat-form-field>
-    <!-- Secure element placeholder removed from UI -->
-    
     </form>
     <div class="payment-status">
       <div *ngIf="processing" class="mat-hint">Processing payment…</div>
       <div *ngIf="paymentResultMessage && !processing" [class.success]="paymentSuccess" [class.error]="paymentSuccess===false">{{ paymentResultMessage }}</div>
+      <div *ngIf="errorMessage && !processing" class="mat-hint">{{ errorMessage }}</div>
     </div>
   </mat-card-content>
   <mat-card-actions>
