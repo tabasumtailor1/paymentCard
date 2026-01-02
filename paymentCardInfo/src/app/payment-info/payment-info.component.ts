@@ -14,24 +14,10 @@ import { Observable } from 'rxjs/internal/Observable';
   styleUrls: ['./payment-info.component.sass'],
 })
 export class PaymentInfoComponent implements OnInit, AfterViewInit {
-  paymentForm: FormGroup = new FormGroup({
-    cardHolderName: new FormControl('', [
-      Validators.required,
-      Validators.minLength(2),
-      Validators.maxLength(50),
-      Validators.pattern("^[A-Za-zÀ-ÖØ-öø-ÿ '\\.-]+$"),
-    ]),
-    // cardNumber/expiry/cvv are collected by Stripe Elements (secure) and must not be stored or sent to our server
-    postalCode: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(20),
-    ]),
-  });
-
   cardBrand: string = '';
   cardError: string | null = null;
-  private stripe: any = null;
-  private stripeCard: any = null;
+  stripe: any = null;
+  stripeCard: any = null;
   processing = false;
   paymentResultMessage = '';
   paymentSuccess: boolean | null = null;
@@ -97,9 +83,6 @@ export class PaymentInfoComponent implements OnInit, AfterViewInit {
     this.paymentResultMessage = '';
     this.paymentSuccess = null;
     this.processing = true;
-
-    const name = this.paymentForm.value.cardHolderName;
-    const postal = this.paymentForm.value.postalCode;
 
     interface StripeTokenResult {
       token?: { id: string };
